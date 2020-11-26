@@ -1,0 +1,49 @@
+﻿<h3>FetchApparrels</h3>
+
+@page "/fetchApparel"
+
+@using ReadTrial1.Data
+@inject IGenderApparelService ApparelService
+
+<h1>Product List</h1>
+
+
+@if (apparels == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Gender Id</th>
+                <th>List Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var apparel in apparels)
+            {
+                <tr>
+                    <td>@apparel.ProductId</td>
+                    <td>@apparel.ProductName</td>
+                    <td>@apparel.GenderId</td>
+                    <td>@apparel.ListPrice</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private GenderApparel[] apparels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int id = 1;
+        apparels = await ApparelService.GetProductByGenderId();
+    }
+}
